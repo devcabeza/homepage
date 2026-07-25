@@ -1,0 +1,29 @@
+# Alejandro Cabeza · Senior Software Engineer
+
+## Sobre mí
+Senior Software Engineer especializado en el Stack TALL (Tailwind, Alpine, Livewire, Laravel). Más de 5 años construyendo arquitecturas backend escalables y productos digitales de alto impacto.
+
+## Enlaces clave
+- Sitio web: https://alejandrocabeza.dev
+- Email: alejandrocabezaoficial@gmail.com
+
+## Experiencia
+- Senior Full-Stack Engineer & DevOps en Aludespagroup (Mar 2026 — Presente)
+- Senior Full-Stack Engineer en WallsTeam (Ene 2024 — Feb 2026)
+- Senior Backend Developer en Prefexya (Jun 2022 — Dic 2023)
+- Full Stack Developer en SEO Contenidos (Ene 2021 — May 2022)
+
+## Proyectos destacados
+- Genius Hormo (USA): Middleware reactivo que automatizó el 100% del flujo de órdenes médicas.
+- Zafiro (SaaS): Co-fundador y arquitecto de ERP multi-moneda con Filament v3 y Livewire.
+- AthenadeXFi: Implementación de cultura DevOps para protocolos DeFi.
+
+## Stack tecnológico
+- Lenguajes: PHP 8.4, JavaScript/TypeScript, SQL
+- Frameworks: Laravel 12, Livewire 3, Filament v3, Symfony, Node.js
+- Frontend: Tailwind CSS, Alpine.js
+- Infraestructura: Docker, PostgreSQL, Redis, GitHub Actions
+
+## Educación
+- Ingeniería en Informática — IUPTAI (En curso)
+- TSU en Informática — IUPTAI (Graduado 2024)

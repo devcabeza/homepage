@@ -5,19 +5,52 @@ import "../styles/global.css";
 export interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  canonicalURL?: string;
 }
 
-const { title, description = "Alejandro Cabeza · Senior Software Engineer" } = Astro.props;
+const {
+  title,
+  description = "Alejandro Cabeza · Senior Software Engineer",
+  ogImage,
+  canonicalURL = "https://alejandrocabeza.dev",
+} = Astro.props;
+
+const defaultOgImage = "/og-image.svg";
+const finalOgImage = ogImage || defaultOgImage;
+const fullTitle = title;
 ---
+
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Alejandro Cabeza" />
+    <meta property="og:image" content={finalOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={finalOgImage} />
+
     <ClientRouter />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,6 +58,69 @@ const { title, description = "Alejandro Cabeza · Senior Software Engineer" } = 
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- JSON-LD Structured Data: Person -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Alejandro Cabeza",
+      "givenName": "Alejandro",
+      "familyName": "Cabeza",
+      "jobTitle": "Senior Software Engineer",
+      "email": "alejandrocabezaoficial@gmail.com",
+      "url": "https://alejandrocabeza.dev",
+      "knowsAbout": [
+        "Laravel", "Livewire", "Tailwind CSS", "Alpine.js", "PHP",
+        "TypeScript", "Docker", "PostgreSQL", "Redis", "Domain-Driven Design",
+        "Event-Driven Architecture", "SOLID Principles"
+      ],
+      "worksFor": [
+        {
+          "@type": "Organization",
+          "name": "Aludespagroup",
+          "jobTitle": "Senior Full-Stack Engineer & DevOps"
+        },
+        {
+          "@type": "Organization",
+          "name": "WallsTeam",
+          "jobTitle": "Senior Full-Stack Engineer"
+        },
+        {
+          "@type": "Organization",
+          "name": "Prefexya",
+          "jobTitle": "Senior Backend Developer"
+        },
+        {
+          "@type": "Organization",
+          "name": "SEO Contenidos",
+          "jobTitle": "Full Stack Developer"
+        }
+      ],
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "IUPTAI"
+        }
+      ],
+      "knowsLanguage": [
+        { "@type": "Language", "name": "Spanish", "alternateName": "es" },
+        { "@type": "Language", "name": "English", "alternateName": "en" }
+      ]
+    })}/>
+
+    <!-- JSON-LD Structured Data: WebSite -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Alejandro Cabeza",
+      "url": "https://alejandrocabeza.dev",
+      "description": "Portfolio de Alejandro Cabeza · Senior Software Engineer especializado en Stack TALL y ecosistema Laravel.",
+      "inLanguage": "es-ES",
+      "author": {
+        "@type": "Person",
+        "name": "Alejandro Cabeza"
+      }
+    })}/>
   </head>
   <body class="bg-surface text-text font-['Inter'] antialiased">
     <nav class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md border-b border-border">

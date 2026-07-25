@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://alejandrocabeza.dev/sitemap-index.xml

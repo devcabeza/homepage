@@ -1,0 +1,83 @@
+# Alejandro Cabeza · Senior Software Engineer
+
+## Perfil profesional
+Senior Software Engineer con más de 5 años de experiencia construyendo arquitecturas backend escalables y productos digitales de alto impacto. Especialista en el ecosistema Laravel y el Stack TALL (Tailwind, Alpine, Livewire, Laravel). Experto en transformar reglas de negocio complejas en sistemas técnicos mediante Domain-Driven Design (DDD), Event-Driven Architecture y principios SOLID.
+
+## Información de contacto
+- Email: alejandrocabezaoficial@gmail.com
+- Website: https://alejandrocabeza.dev
+- Ubicación: Venezuela (Disponible para trabajo remoto)
+
+## Experiencia profesional
+
+### Aludespagroup — Senior Full-Stack Engineer & DevOps
+*Marzo 2026 — Presente*
+- Liderazgo técnico en el desarrollo de productos end-to-end utilizando Laravel 12 y Livewire 3.
+- Diseño y automatización integral de pipelines de CI/CD para alta disponibilidad y escalabilidad.
+
+### WallsTeam — Senior Full-Stack Engineer
+*Enero 2024 — Febrero 2026*
+- Liderazgo en el desarrollo de soluciones empresariales de alto rendimiento.
+- Proyectos clave: Fairpay, Gotitjob.
+- Implementación de arquitecturas modernas y sistemas orientados a eventos.
+
+### Prefexya — Senior Backend Developer
+*Junio 2022 — Diciembre 2023*
+- Reducción del 90% en tiempos de respuesta del sistema.
+- Incremento del 70% en la interacción de usuarios.
+- Integraciones complejas con APIs externas (Zoho) utilizando Symfony y MySQL.
+- Implementación de Docker para estandarizar entornos.
+
+### SEO Contenidos — Full Stack Developer
+*Enero 2021 — Mayo 2022*
+- Reingeniería de la plataforma de Empresas Polar.
+- Desarrollo de módulos desde cero en TypeScript, Node.js y PHP.
+- Optimización de integraciones para arquitecturas de alto tráfico.
+
+## Consultoría y proyectos independientes
+
+### Genius Hormo (USA)
+Middleware reactivo que automatizó el 100% del flujo de órdenes médicas, reduciendo el tiempo de procesamiento en un 70%.
+
+### Zafiro (SaaS)
+Co-fundador y arquitecto de un ERP multi-moneda construido íntegramente sobre Filament v3 y Livewire.
+
+### AthenadeXFi
+Implementación de cultura DevOps y pipelines automatizados para protocolos DeFi.
+
+## Stack tecnológico detallado
+
+### Lenguajes
+- PHP 8.4 — Avanzado
+- JavaScript / TypeScript — Avanzado
+- SQL — Avanzado
+- English — Técnico
+- Spanish — Nativo
+
+### Frameworks y herramientas
+- Laravel 12 — Experto
+- Livewire 3 — Experto
+- Filament v3 — Experto
+- Symfony — Avanzado
+- Node.js — Avanzado
+
+### Frontend
+- Tailwind CSS — Experto
+- Alpine.js — Experto
+
+### Infraestructura y DevOps
+- Docker — Avanzado
+- PostgreSQL — Avanzado
+- Redis — Avanzado
+- GitHub Actions — Avanzado
+
+## Educación
+- Ingeniería en Informática — IUPTAI (En curso)
+- TSU en Informática — IUPTAI (Graduado, 2024)
+
+## Filosofía de trabajo
+- Domain-Driven Design (DDD)
+- Event-Driven Architecture
+- Principios SOLID
+- Automatización y DevOps
+- Código limpio y mantenible
