@@ -1,0 +1,32 @@
+---
+import ScrollReveal from "../ui/ScrollReveal.astro";
+const projects = [
+  { title: "Genius Hormo", client: "USA", description: "Middleware reactivo que automatizó el 100% del flujo de órdenes médicas, reduciendo el tiempo de procesamiento en un 70%.", tags: ["Middleware", "Automatización", "Salud"] },
+  { title: "Zafiro", client: "SaaS", description: "Co-fundador y arquitecto de un ERP multi-moneda construido íntegramente sobre Filament v3 y Livewire.", tags: ["ERP", "Filament", "Livewire", "SaaS"] },
+  { title: "AthenadeXFi", client: "DeFi", description: "Implementación de cultura DevOps y pipelines automatizados para protocolos DeFi.", tags: ["DevOps", "CI/CD", "DeFi", "Blockchain"] },
+];
+---
+<section id="projects" class="py-24 px-6">
+  <ScrollReveal>
+    <div class="max-w-3xl mx-auto">
+      <p class="text-primary font-medium text-sm tracking-widest uppercase mb-3">Consultoría</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-text mb-12">Proyectos <span class="text-primary">Destacados</span></h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project) => (
+          <article class="p-6 rounded-xl border border-border bg-surface hover:shadow-lg hover:border-primary/30 transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-text text-lg">{project.title}</h3>
+              <span class="text-xs font-medium text-primary bg-primary-light px-2 py-1 rounded-full">{project.client}</span>
+            </div>
+            <p class="text-text-muted text-sm leading-relaxed mb-4">{project.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="text-xs text-text-muted bg-surface-alt px-2 py-1 rounded">{tag}</span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </ScrollReveal>
+</section>

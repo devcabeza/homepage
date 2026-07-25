@@ -1,0 +1,15 @@
+---
+export interface Props {
+  name: string;
+  level: "Avanzado" | "Experto";
+}
+const { name, level } = Astro.props;
+const isExpert = level === "Experto";
+---
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface hover:border-primary hover:shadow-sm transition-all text-sm">
+  <span class="font-medium text-text">{name}</span>
+  <span class="text-xs px-2 py-0.5 rounded-full" class:list={{
+    "bg-primary-light text-primary": isExpert,
+    "bg-surface-alt text-text-muted": !isExpert,
+  }}>{level}</span>
+</div>

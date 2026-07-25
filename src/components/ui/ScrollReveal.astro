@@ -1,0 +1,38 @@
+---
+export interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<div class:list={["scroll-reveal", className]}>
+  <slot />
+</div>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+  );
+  document.querySelectorAll(".scroll-reveal").forEach((el) => {
+    observer.observe(el);
+  });
+</script>
+
+<style is:global>
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

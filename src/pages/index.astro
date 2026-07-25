@@ -1,17 +1,19 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import About from "../components/sections/About.astro";
+import Experience from "../components/sections/Experience.astro";
+import Skills from "../components/sections/Skills.astro";
+import Projects from "../components/sections/Projects.astro";
+import Education from "../components/sections/Education.astro";
+import Contact from "../components/sections/Contact.astro";
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Alejandro Cabeza · Senior Software Engineer">
+  <Hero />
+  <About />
+  <Experience />
+  <Skills />
+  <Projects />
+  <Education />
+  <Contact />
+</BaseLayout>

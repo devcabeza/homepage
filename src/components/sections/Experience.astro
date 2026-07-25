@@ -1,0 +1,23 @@
+---
+import ScrollReveal from "../ui/ScrollReveal.astro";
+import TimelineItem from "../ui/TimelineItem.astro";
+const experience = [
+  { period: "Mar 2026 — Presente", role: "Senior Full-Stack Engineer & DevOps", company: "Aludespagroup", highlights: ["Liderazgo técnico en el desarrollo de productos end-to-end con Laravel 12 y Livewire 3.", "Diseño y automatización integral de pipelines CI/CD para alta disponibilidad y escalabilidad."] },
+  { period: "Ene 2024 — Feb 2026", role: "Senior Full-Stack Engineer", company: "WallsTeam", highlights: ["Liderazgo en soluciones empresariales de alto rendimiento (Fairpay, Gotitjob).", "Implementación de arquitecturas modernas y sistemas orientados a eventos."] },
+  { period: "Jun 2022 — Dic 2023", role: "Senior Backend Developer", company: "Prefexya", highlights: ["Reducción del 90% en tiempos de respuesta del sistema.", "Incremento del 70% en la interacción de usuarios.", "Integraciones complejas con APIs externas (Zoho) usando Symfony y MySQL.", "Implementación de Docker para estandarizar entornos."] },
+  { period: "Ene 2021 — May 2022", role: "Full Stack Developer", company: "SEO Contenidos", highlights: ["Reingeniería de la plataforma de Empresas Polar.", "Módulos desde cero en TypeScript, Node.js y PHP.", "Optimización para arquitecturas de alto tráfico."] },
+];
+---
+<section id="experience" class="py-24 px-6">
+  <ScrollReveal>
+    <div class="max-w-3xl mx-auto">
+      <p class="text-primary font-medium text-sm tracking-widest uppercase mb-3">Trayectoria</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-text mb-12">Experiencia <span class="text-primary">Profesional</span></h2>
+      <div class="max-w-2xl">
+        {experience.map((item, i) => (
+          <TimelineItem period={item.period} role={item.role} company={item.company} highlights={item.highlights} isLast={i === experience.length - 1} />
+        ))}
+      </div>
+    </div>
+  </ScrollReveal>
+</section>

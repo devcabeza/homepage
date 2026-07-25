@@ -1,0 +1,30 @@
+---
+import ScrollReveal from "../ui/ScrollReveal.astro";
+import SkillBadge from "../ui/SkillBadge.astro";
+const skillGroups = [
+  { title: "Lenguajes", skills: [{ name: "PHP 8.4", level: "Avanzado" }, { name: "JavaScript / TypeScript", level: "Avanzado" }, { name: "SQL", level: "Avanzado" }] },
+  { title: "Frameworks & CMS", skills: [{ name: "Laravel 12", level: "Experto" }, { name: "Livewire 3", level: "Experto" }, { name: "Filament v3", level: "Experto" }, { name: "Symfony", level: "Avanzado" }, { name: "Node.js", level: "Avanzado" }] },
+  { title: "Frontend", skills: [{ name: "Tailwind CSS", level: "Experto" }, { name: "Alpine.js", level: "Experto" }] },
+  { title: "Infraestructura", skills: [{ name: "Docker", level: "Avanzado" }, { name: "PostgreSQL", level: "Avanzado" }, { name: "Redis", level: "Avanzado" }, { name: "GitHub Actions", level: "Avanzado" }] },
+];
+---
+<section id="skills" class="py-24 px-6 bg-surface-alt">
+  <ScrollReveal>
+    <div class="max-w-3xl mx-auto">
+      <p class="text-primary font-medium text-sm tracking-widest uppercase mb-3">Tecnologías</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-text mb-12">Stack <span class="text-primary">Tecnológico</span></h2>
+      <div class="space-y-10">
+        {skillGroups.map((group) => (
+          <div>
+            <h3 class="text-sm font-semibold text-text-muted uppercase tracking-wider mb-4">{group.title}</h3>
+            <div class="flex flex-wrap gap-3">
+              {group.skills.map((skill) => (
+                <SkillBadge name={skill.name} level={skill.level} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </ScrollReveal>
+</section>
