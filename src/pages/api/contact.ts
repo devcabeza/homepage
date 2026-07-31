@@ -7,6 +7,11 @@ const TO_EMAIL = 'alejandrocabezaoficial@gmail.com';
 
 export const POST: APIRoute = async ({ request }) => {
   if (!SENDRIX_API_KEY || !SENDRIX_PROJECT_ID) {
+    const missing = [
+      !SENDRIX_API_KEY ? 'SENDRIX_API_KEY' : null,
+      !SENDRIX_PROJECT_ID ? 'SENDRIX_PROJECT_ID' : null,
+    ].filter(Boolean);
+    console.error(`Contact API misconfigured — missing env var(s): ${missing.join(', ')}`);
     return new Response(JSON.stringify({ error: 'Server not configured' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
