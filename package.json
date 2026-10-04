@@ -1,0 +1,43 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite dev",
+        "cap:sync": "npm run cap:icons && npx cap sync",
+        "cap:init": "npx cap init Laravertex com.laravertex.app --web-dir=dist",
+        "cap:add:android": "npm install @capacitor/android && npx cap add android && npm run cap:icons",
+        "cap:add:ios": "npm install @capacitor/ios && npx cap add ios && npm run cap:icons",
+        "cap:open:android": "npx cap open android",
+        "cap:open:ios": "npx cap open ios",
+        "cap:icons": "./scripts/generate-mobile-icons.sh",
+        "build:android": "npm run build && npm run cap:icons && npx cap sync android && cd android && ./gradlew assembleDebug",
+        "postinstall": "echo 'Run npm run cap:icons to generate mobile app icons'"
+    },
+    "dependencies": {
+        "@capacitor/android": "^7.2.0",
+        "@capacitor/app": "^7.1.2",
+        "@capacitor/cli": "^7.2.0",
+        "@capacitor/core": "^7.2.0",
+        "@capacitor/ios": "^7.2.0",
+        "@capacitor/splash-screen": "^7.0.5",
+        "@tailwindcss/vite": "^4.1.11",
+        "concurrently": "^10.0.3",
+        "dotenv": "^17.4.2",
+        "laravel-vite-plugin": "^3.1",
+        "tailwindcss": "^4.0.7",
+        "vite": "^8.0.0",
+        "vite-plus": "0.3.0"
+    },
+    "optionalDependencies": {
+        "@laravel/multiplex": "^0.4.1",
+        "@rollup/rollup-linux-x64-gnu": "4.9.5",
+        "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
+        "lightningcss-linux-x64-gnu": "^1.29.1"
+    },
+    "devDependencies": {
+        "daisyui": "^5.7.42",
+        "typescript": "^5.9.3"
+    }
+}
