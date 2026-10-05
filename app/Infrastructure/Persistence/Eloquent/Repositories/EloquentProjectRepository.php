@@ -8,6 +8,7 @@ use App\Domain\Portfolio\Enums\ProjectCategory;
 use App\Domain\Portfolio\Models\Project;
 use App\Infrastructure\Persistence\Eloquent\Models\EloquentProject;
 use App\Ports\Out\Persistence\ProjectRepositoryInterface;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 
 final class EloquentProjectRepository implements ProjectRepositoryInterface
@@ -66,12 +67,22 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
                 ->when($category !== null, fn (Builder $q) => $q->where('category', $category->value))
                 ->when($term !== '', function (Builder $q) use ($term) {
                     $like = '%'.strtolower($term).'%';
-                    $q->where(function (Builder $sub) use ($like) {
+                    $connection = $q->getConnection();
+                    $driver = $connection instanceof Connection
+                        ? $connection->getDriverName()
+                        : 'default';
+
+                    $techStackExpr = match ($driver) {
+                        'mysql', 'mariadb' => 'LOWER(CAST(tech_stack AS CHAR)) LIKE ?',
+                        default => 'LOWER(CAST(tech_stack AS TEXT)) LIKE ?',
+                    };
+
+                    $q->where(function (Builder $sub) use ($like, $techStackExpr) {
                         $sub->whereRaw('LOWER(title) LIKE ?', [$like])
                             ->orWhereRaw('LOWER(summary) LIKE ?', [$like])
                             ->orWhereRaw('LOWER(tagline) LIKE ?', [$like])
                             ->orWhereRaw('LOWER(role) LIKE ?', [$like])
-                            ->orWhereRaw('LOWER(tech_stack) LIKE ?', [$like]);
+                            ->orWhereRaw($techStackExpr, [$like]);
                     });
                 })
                 ->orderBy('sort_order')
