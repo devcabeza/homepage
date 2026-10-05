@@ -16,7 +16,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-#[Title('Iniciar Sesión | Laravertex')]
+#[Title('Panel de Administración | Alejandro Cabeza')]
 class MagicLogin extends Component
 {
     #[Validate('required|email|max:255', message: [
@@ -36,6 +36,13 @@ class MagicLogin extends Component
         }
 
         $this->validate();
+
+        $adminEmail = strtolower(trim((string) config('portfolio.admin_email', 'alejandrocabezaoficial@gmail.com')));
+        if (strtolower(trim($this->email)) !== $adminEmail) {
+            throw ValidationException::withMessages([
+                'email' => 'Acceso restringido. Este panel es exclusivo para el administrador del portafolio.',
+            ]);
+        }
 
         $throttleKey = 'magic-link:'.strtolower(trim($this->email)).'|'.$request->ip();
 

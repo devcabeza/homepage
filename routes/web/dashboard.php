@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Livewire\Dashboard\ProjectsManager;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard', [
-            'user' => Auth::user(),
-        ]);
-    })->name('dashboard');
+    Route::get('/dashboard', ProjectsManager::class)->name('dashboard');
+    Route::get('/dashboard/proyectos', ProjectsManager::class)->name('dashboard.projects');
 });

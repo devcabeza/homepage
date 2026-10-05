@@ -143,7 +143,7 @@ test('can resend code successfully and queues mail', function () {
     Mail::fake();
 
     $user = User::factory()->create([
-        'email' => 'resend@example.com',
+        'email' => 'alejandrocabezaoficial@gmail.com',
     ]);
 
     Livewire::test(VerifyToken::class, ['email' => $user->email])

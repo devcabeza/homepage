@@ -9,6 +9,7 @@ use App\Ports\Out\Messaging\MagicLinkNotifierInterface;
 use App\Ports\Out\Persistence\MagicLinkTokenRepositoryInterface;
 use App\Ports\Out\Persistence\UserRepositoryInterface;
 use DateTimeImmutable;
+use Illuminate\Auth\Access\AuthorizationException;
 
 final class SendMagicLinkAction
 {
@@ -21,6 +22,11 @@ final class SendMagicLinkAction
     public function execute(SendMagicLinkDTO $dto): void
     {
         $normalizedEmail = strtolower(trim($dto->email));
+
+        $adminEmail = strtolower(trim((string) config('portfolio.admin_email', 'alejandrocabezaoficial@gmail.com')));
+        if ($normalizedEmail !== $adminEmail) {
+            throw new AuthorizationException('Acceso restringido. Este panel es exclusivo para el administrador del portafolio.');
+        }
 
         $user = $this->userRepository->findByEmail($normalizedEmail);
 

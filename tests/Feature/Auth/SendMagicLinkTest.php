@@ -12,7 +12,7 @@ use Livewire\Livewire;
 test('renders the magic link login page correctly', function () {
     $this->get(route('auth.login'))
         ->assertOk()
-        ->assertSee('Acceso sin contraseña')
+        ->assertSee('Panel de Administración')
         ->assertSee('Correo electrónico');
 });
 
@@ -28,40 +28,63 @@ test('validates email is required and valid format', function () {
         ->assertHasErrors(['email' => 'email']);
 });
 
-test('creates new user and sends magic link email when user does not exist', function () {
+test('rejects unauthorized non-admin email and does not create user or token', function () {
     Mail::fake();
 
-    $email = 'nuevo.usuario@example.com';
+    $email = 'stranger@example.com';
 
     Livewire::test(MagicLogin::class)
         ->set('email', $email)
         ->call('submit')
+        ->assertHasErrors(['email'])
+        ->assertSee('Acceso restringido');
+
+    $this->assertDatabaseMissing('users', [
+        'email' => $email,
+    ]);
+
+    $this->assertDatabaseMissing('magic_link_tokens', [
+        'email' => $email,
+    ]);
+
+    Mail::assertNothingQueued();
+});
+
+test('sends magic link email when authorized admin email is provided', function () {
+    Mail::fake();
+
+    $adminEmail = 'alejandrocabezaoficial@gmail.com';
+
+    Livewire::test(MagicLogin::class)
+        ->set('email', $adminEmail)
+        ->call('submit')
         ->assertHasNoErrors()
-        ->assertRedirect(route('auth.verify', ['email' => $email]));
+        ->assertRedirect(route('auth.verify', ['email' => $adminEmail]));
 
     $this->assertDatabaseHas('users', [
-        'email' => $email,
-        'name' => 'Nuevo Usuario',
+        'email' => $adminEmail,
     ]);
 
     $this->assertDatabaseHas('magic_link_tokens', [
-        'email' => $email,
+        'email' => $adminEmail,
     ]);
 
-    Mail::assertQueued(MagicLinkMail::class, function (MagicLinkMail $mail) use ($email) {
-        return $mail->hasTo($email)
+    Mail::assertQueued(MagicLinkMail::class, function (MagicLinkMail $mail) use ($adminEmail): bool {
+        return $mail->hasTo($adminEmail)
             && strlen($mail->tokenCode) === 6
             && is_numeric($mail->tokenCode)
             && str_contains($mail->verificationUrl, 'auth/verify');
     });
 });
 
-test('uses existing user and invalidates previous active tokens', function () {
+test('uses existing admin user and invalidates previous active tokens', function () {
     Mail::fake();
 
+    $adminEmail = 'alejandrocabezaoficial@gmail.com';
+
     $user = User::factory()->create([
-        'email' => 'existente@example.com',
-        'name' => 'Usuario Existente',
+        'email' => $adminEmail,
+        'name' => 'Alejandro Cabeza',
     ]);
 
     // Create an existing active token
