@@ -66,19 +66,10 @@
 
                     {{-- Navigation Links --}}
                     <nav class="hidden md:flex items-center gap-5 text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                        <a href="{{ route('home') }}#experiencia" class="hover:text-zinc-900 dark:hover:text-white transition-colors">Experiencia</a>
                         <a href="{{ route('projects.index') }}" class="inline-flex items-center gap-1 font-semibold {{ request()->routeIs('projects.*') ? 'text-emerald-600 dark:text-emerald-400' : 'hover:text-zinc-900 dark:hover:text-white transition-colors' }}">
                             <span>Proyectos & MRR</span>
                             <span class="text-[10px] font-mono opacity-80">↗</span>
                         </a>
-                        <a href="{{ route('home') }}#sobre-mi" class="hover:text-zinc-900 dark:hover:text-white transition-colors">Sobre Mí</a>
-                        <a href="{{ route('home') }}#estudios" class="hover:text-zinc-900 dark:hover:text-white transition-colors">Estudios</a>
-                        <a href="{{ route('home') }}#contacto" class="hover:text-zinc-900 dark:hover:text-white transition-colors">Contacto</a>
-                        @auth
-                            <a href="{{ route('dashboard.projects') }}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-mono text-[11px] px-2 py-0.5 rounded bg-zinc-200/50 dark:bg-zinc-800/80">
-                                ⚙ Panel
-                            </a>
-                        @endauth
                     </nav>
 
                     {{-- Actions: Theme Toggle & CV Download --}}
