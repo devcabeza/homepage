@@ -23,7 +23,7 @@ $textareaId = $id ?? $name ?? 'textarea-' . uniqid();
 <div class="form-control w-full space-y-1.5">
     @if ($label)
         <label for="{{ $textareaId }}" class="label py-0 px-0.5">
-            <span class="label-text font-medium text-sm text-zinc-300">{{ $label }}</span>
+            <span class="label-text font-medium text-sm text-zinc-700 dark:text-zinc-300">{{ $label }}</span>
         </label>
     @endif
 

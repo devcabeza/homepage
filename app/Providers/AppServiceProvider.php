@@ -3,11 +3,15 @@
 namespace App\Providers;
 
 use App\Infrastructure\Messaging\MagicLinkNotifier;
+use App\Infrastructure\Messaging\SendrixContactNotifier;
 use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentMagicLinkTokenRepository;
+use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentProjectRepository;
 use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
 use App\Mail\SendrixTransport;
+use App\Ports\Out\Messaging\ContactNotifierInterface;
 use App\Ports\Out\Messaging\MagicLinkNotifierInterface;
 use App\Ports\Out\Persistence\MagicLinkTokenRepositoryInterface;
+use App\Ports\Out\Persistence\ProjectRepositoryInterface;
 use App\Ports\Out\Persistence\UserRepositoryInterface;
 use Carbon\CarbonImmutable;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -40,6 +44,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             MagicLinkNotifierInterface::class,
             MagicLinkNotifier::class,
+        );
+
+        $this->app->bind(
+            ContactNotifierInterface::class,
+            SendrixContactNotifier::class,
+        );
+
+        $this->app->bind(
+            ProjectRepositoryInterface::class,
+            EloquentProjectRepository::class,
         );
     }
 

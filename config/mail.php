@@ -119,4 +119,12 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Portfolio Contact Settings
+    |--------------------------------------------------------------------------
+    */
+    'contact_recipient' => env('MAIL_CONTACT_RECIPIENT', 'alejandrocabezaoficial@gmail.com'),
+    'contact_mailer' => env('MAIL_CONTACT_MAILER', 'sendrix'),
+
 ];

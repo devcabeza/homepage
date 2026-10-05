@@ -1,18 +1,16 @@
 <?php
 
-test('returns a successful response', function () {
+test('health endpoint returns a successful response', function () {
     $response = $this->get('/health');
 
     $response->assertOk();
 });
 
-test('welcome page renders successfully with starter kit landing content', function () {
+test('portfolio page renders successfully as the root route', function () {
     $response = $this->get('/');
 
     $response->assertOk();
-    $response->assertSee('Laravertex');
-    $response->assertSee('Web y APK Nativo');
-    $response->assertSee('Capacitor 7');
-    $response->assertSee('https://github.com/devcabeza/starter-kit');
-    $response->assertSee('Ver en GitHub');
+    $response->assertSee('Alejandro Cabeza');
+    $response->assertSee('Senior Software Engineer & TALL Stack Specialist', false);
+    $response->assertSee('alejandrocabezaoficial@gmail.com');
 });

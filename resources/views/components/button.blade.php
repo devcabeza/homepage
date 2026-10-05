@@ -17,6 +17,7 @@ $variantClasses = match ($variant) {
     'accent' => 'btn-accent',
     'neutral' => 'btn-neutral',
     'ghost' => 'btn-ghost',
+    'outline' => 'btn-outline',
     'link' => 'btn-link',
     'danger', 'error' => 'btn-error text-white',
     'success' => 'btn-success text-white',
@@ -33,7 +34,7 @@ $sizeClasses = match ($size) {
     default => 'btn-md min-h-[44px]',
 };
 
-$outlineClass = $outline ? 'btn-outline' : '';
+$outlineClass = ($outline || $variant === 'outline') ? 'btn-outline' : '';
 @endphp
 
 @if ($href)

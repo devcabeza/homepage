@@ -278,7 +278,7 @@ pint-test: ## Run Pint in test mode (dry-run)
 	$(SAIL) vendor/bin/pint --test
 
 phpstan: ## Run PHPStan static analysis
-	$(SAIL) vendor/bin/phpstan analyse
+	$(SAIL) vendor/bin/phpstan analyse --memory-limit=512M
 
 phpstan-baseline: ## Generate PHPStan baseline
 	$(SAIL) vendor/bin/phpstan analyse --generate-baseline

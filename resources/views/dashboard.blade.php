@@ -33,6 +33,15 @@
 
                 <x-dropdown-separator />
 
+                <x-dropdown-item href="{{ route('dashboard.projects') }}">
+                    <x-slot:icon>
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </x-slot:icon>
+                    Proyectos & MRR
+                </x-dropdown-item>
+
                 <x-dropdown-item href="{{ route('profile') }}">
                     <x-slot:icon>
                         <svg class="w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -85,7 +94,36 @@
         </div>
 
         {{-- Bento Grid Features --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {{-- Proyectos & MRR Card --}}
+            <x-card class="border-emerald-500/30 bg-gradient-to-b from-emerald-950/20 to-zinc-900">
+                <div class="space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-lg font-bold text-white">Proyectos & MRR</h3>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    </div>
+                    <p class="text-sm text-zinc-400">
+                        Controla tus proyectos independientes, ingresos mensuales ($/mo) y enlaces a subdominios.
+                    </p>
+                </div>
+
+                <x-slot:actions class="w-full">
+                    <x-button
+                        href="{{ route('dashboard.projects') }}"
+                        variant="primary"
+                        class="w-full min-h-[48px]"
+                    >
+                        <span>Gestionar Proyectos</span>
+                        <span class="ml-1 font-mono">→</span>
+                    </x-button>
+                </x-slot:actions>
+            </x-card>
+
             {{-- Mobile & Capacitor Card --}}
             <x-card>
                 <div class="space-y-3">

@@ -1,8 +1,7 @@
 <?php
 
 use App\Application\Health\Actions\CheckSystemHealthAction;
-use Illuminate\Support\Facades\Route;
-
+use App\Livewire\Portfolio\IndiePage;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +12,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 // Public routes
-Route::view('/', 'welcome')->name('home');
+Route::view('/', 'portfolio')->name('home');
+Route::get('/proyectos', IndiePage::class)->name('projects.index');
+Route::redirect('/indie', '/proyectos');
+
+Route::get('/cv/download', function () {
+    $filePath = public_path('CV Alejandro Cabeza.pdf');
+    abort_unless(file_exists($filePath), 404);
+
+    return response()->download($filePath, 'CV_Alejandro_Cabeza.pdf', [
+        'Content-Type' => 'application/pdf',
+    ]);
+})->name('cv.download');
 
 // Health check (used by Docker HEALTHCHECK and monitoring)
 Route::get('/health', function (CheckSystemHealthAction $healthAction) {

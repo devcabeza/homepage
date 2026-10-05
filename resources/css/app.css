@@ -1,12 +1,56 @@
 @import 'tailwindcss';
 @plugin 'daisyui';
 
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
+/* Monochromatic High-Contrast Design System for Light & Dark Themes */
+:root, [data-theme="light"] {
+    --color-primary: #18181b;
+    --color-primary-content: #ffffff;
+    --color-base-100: #ffffff;
+    --color-base-200: #f4f4f5;
+    --color-base-300: #e4e4e7;
+    --color-base-content: #18181b;
+}
+
+.dark, [data-theme="dark"] {
+    --color-primary: #ffffff;
+    --color-primary-content: #09090b;
+    --color-base-100: #121318;
+    --color-base-200: #181920;
+    --color-base-300: #27272a;
+    --color-base-content: #f4f4f5;
+}
+
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
+
+/* Subtle cybernetic dot matrix & grid patterns */
+@utility bg-grid-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+@utility bg-grid-subtle {
+    background-size: 40px 40px;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Glassmorphism panel styling */
+@utility glass-card {
+    background: rgba(15, 17, 23, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 
 /* Alpine.js: prevent flash of un-initialized mobile menus/sheets */
 [x-cloak] {
