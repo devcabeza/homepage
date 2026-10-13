@@ -19,11 +19,19 @@ class ProjectsRegistry extends Component
     #[Url(as: 'buscar')]
     public string $search = '';
 
+    #[Url(as: 'modelo')]
+    public string $pricing = 'all';
+
     public ?string $selectedSlug = null;
 
     public function setCategory(string $category): void
     {
         $this->category = $category;
+    }
+
+    public function setPricing(string $pricing): void
+    {
+        $this->pricing = $pricing;
     }
 
     public function showProject(string $slug): void
@@ -40,6 +48,7 @@ class ProjectsRegistry extends Component
     {
         $this->category = 'all';
         $this->search = '';
+        $this->pricing = 'all';
     }
 
     public function render(
@@ -47,7 +56,7 @@ class ProjectsRegistry extends Component
         FindProjectBySlugQuery $findProjectQuery,
     ): View {
         /** @var list<ProjectDTO> $projects */
-        $projects = $getProjectsQuery->execute($this->category, $this->search);
+        $projects = $getProjectsQuery->execute($this->category, $this->search, $this->pricing);
 
         /** @var ProjectDTO|null $activeProject */
         $activeProject = $this->selectedSlug
@@ -61,6 +70,8 @@ class ProjectsRegistry extends Component
             'personal_tool' => count(array_filter($allProjects, fn (ProjectDTO $p) => $p->category->value === 'personal_tool')),
             'devops_infra' => count(array_filter($allProjects, fn (ProjectDTO $p) => $p->category->value === 'devops_infra')),
             'enterprise' => count(array_filter($allProjects, fn (ProjectDTO $p) => $p->category->value === 'enterprise')),
+            'freemium' => count(array_filter($allProjects, fn (ProjectDTO $p) => $p->isFreemium)),
+            'paid' => count(array_filter($allProjects, fn (ProjectDTO $p) => ! $p->isFreemium)),
         ];
 
         return view('livewire.portfolio.projects-registry', [

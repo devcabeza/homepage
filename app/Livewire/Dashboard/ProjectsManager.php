@@ -8,6 +8,7 @@ use App\Application\Portfolio\Actions\DeletePersonalProjectAction;
 use App\Application\Portfolio\Actions\SavePersonalProjectAction;
 use App\Application\Portfolio\DTOs\SaveProjectDTO;
 use App\Domain\Portfolio\Enums\ProjectCategory;
+use App\Domain\Portfolio\Models\Project;
 use App\Ports\Out\Persistence\ProjectRepositoryInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,10 @@ final class ProjectsManager extends Component
 
     public bool $revenueVerified = true;
 
+    public bool $isFreemium = true;
+
+    public string $pricingFilter = 'all';
+
     public ?string $url = null;
 
     public ?string $githubUrl = null;
@@ -86,6 +91,7 @@ final class ProjectsManager extends Component
             'monthlyRevenue',
             'status',
             'revenueVerified',
+            'isFreemium',
             'url',
             'githubUrl',
             'sortOrder',
@@ -97,6 +103,7 @@ final class ProjectsManager extends Component
         $this->status = 'active';
         $this->period = (string) date('Y');
         $this->revenueVerified = true;
+        $this->isFreemium = true;
         $this->showModal = true;
     }
 
@@ -125,6 +132,7 @@ final class ProjectsManager extends Component
         $this->monthlyRevenue = $project->monthlyRevenue;
         $this->status = $project->status;
         $this->revenueVerified = $project->revenueVerified;
+        $this->isFreemium = $project->isFreemium;
         $this->url = $project->url;
         $this->githubUrl = $project->githubUrl;
         $this->sortOrder = $project->sortOrder;
@@ -186,6 +194,7 @@ final class ProjectsManager extends Component
             githubUrl: $this->githubUrl,
             logoUrl: null,
             revenueVerified: $this->revenueVerified,
+            isFreemium: $this->isFreemium,
             isPersonal: true,
             featured: true,
             sortOrder: $this->sortOrder,
@@ -205,12 +214,22 @@ final class ProjectsManager extends Component
 
     public function render(ProjectRepositoryInterface $repository): View
     {
-        $projects = $repository->all();
+        $isFreemiumFilter = match ($this->pricingFilter) {
+            'freemium' => true,
+            'paid' => false,
+            default => null,
+        };
+
+        $allProjects = $repository->all();
+        $projects = $repository->all($isFreemiumFilter);
         $totalRevenue = $repository->getTotalMonthlyRevenue();
 
         return view('livewire.dashboard.projects-manager', [
             'user' => Auth::user(),
             'projects' => $projects,
+            'allProjects' => $allProjects,
+            'freemiumCount' => count(array_filter($allProjects, fn (Project $p): bool => $p->isFreemium)),
+            'paidCount' => count(array_filter($allProjects, fn (Project $p): bool => ! $p->isFreemium)),
             'totalRevenue' => $totalRevenue,
             'totalRevenueFormatted' => '$'.number_format($totalRevenue, 2).' / mes',
         ]);

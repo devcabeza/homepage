@@ -45,6 +45,7 @@ final readonly class SavePersonalProjectAction
             status: $dto->status,
             logoUrl: $dto->logoUrl,
             revenueVerified: $dto->revenueVerified,
+            isFreemium: $dto->isFreemium,
         );
 
         $saved = $this->projectRepository->save($project);

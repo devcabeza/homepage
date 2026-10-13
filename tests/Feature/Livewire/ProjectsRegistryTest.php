@@ -1,5 +1,6 @@
 <?php
 
+use App\Infrastructure\Persistence\Eloquent\Models\EloquentProject;
 use App\Livewire\Portfolio\ProjectsRegistry;
 use Database\Seeders\PortfolioProjectsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -87,4 +88,80 @@ test('architecture modal displays direct tool link button with subdomain', funct
         ->call('showProject', 'laravertex')
         ->assertSee('https://laravertex.alejandrocabeza.dev', false)
         ->assertSee('Abrir Herramienta');
+});
+
+test('projects registry can filter paid projects by pricing model', function () {
+    EloquentProject::query()->create([
+        'slug' => 'paidconsole',
+        'subdomain' => 'paidconsole',
+        'title' => 'PaidConsole',
+        'tagline' => 'Consola de facturación para equipos',
+        'summary' => 'Plataforma de facturación con planes de pago por asiento.',
+        'category' => 'personal_tool',
+        'role' => 'Creador & Lead Developer',
+        'tech_stack' => ['Laravel 13'],
+        'highlights' => [],
+        'is_personal' => true,
+        'is_freemium' => false,
+    ]);
+
+    Livewire::test(ProjectsRegistry::class)
+        ->assertSet('pricing', 'all')
+        ->assertSee('PaidConsole')
+        ->call('setPricing', 'paid')
+        ->assertSee('PaidConsole')
+        ->assertDontSee('Sendrix')
+        ->assertDontSee('Fillr');
+});
+
+test('projects registry can filter freemium projects by pricing model', function () {
+    EloquentProject::query()->create([
+        'slug' => 'paidconsole',
+        'subdomain' => 'paidconsole',
+        'title' => 'PaidConsole',
+        'tagline' => 'Consola de facturación para equipos',
+        'summary' => 'Plataforma de facturación con planes de pago por asiento.',
+        'category' => 'personal_tool',
+        'role' => 'Creador & Lead Developer',
+        'tech_stack' => ['Laravel 13'],
+        'highlights' => [],
+        'is_personal' => true,
+        'is_freemium' => false,
+    ]);
+
+    Livewire::test(ProjectsRegistry::class)
+        ->call('setPricing', 'freemium')
+        ->assertSee('Sendrix')
+        ->assertSee('Fillr')
+        ->assertDontSee('PaidConsole');
+});
+
+test('projects registry restores the pricing filter to all when clearing filters', function () {
+    Livewire::test(ProjectsRegistry::class)
+        ->call('setPricing', 'paid')
+        ->call('clearFilters')
+        ->assertSet('pricing', 'all')
+        ->assertSee('Sendrix');
+});
+
+test('projects registry applies the pricing filter from the query string', function () {
+    EloquentProject::query()->create([
+        'slug' => 'paidconsole',
+        'subdomain' => 'paidconsole',
+        'title' => 'PaidConsole',
+        'tagline' => 'Consola de facturación para equipos',
+        'summary' => 'Plataforma de facturación con planes de pago por asiento.',
+        'category' => 'personal_tool',
+        'role' => 'Creador & Lead Developer',
+        'tech_stack' => ['Laravel 13'],
+        'highlights' => [],
+        'is_personal' => true,
+        'is_freemium' => false,
+    ]);
+
+    Livewire::withQueryParams(['modelo' => 'paid'])
+        ->test(ProjectsRegistry::class)
+        ->assertSet('pricing', 'paid')
+        ->assertSee('PaidConsole')
+        ->assertDontSee('Sendrix');
 });

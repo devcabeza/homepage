@@ -110,3 +110,75 @@ test('authenticated user can delete a project', function () {
         'id' => $project->id,
     ]);
 });
+
+test('authenticated user can create a paid project by disabling the freemium checkbox', function () {
+    $user = User::factory()->create();
+
+    Livewire::actingAs($user)
+        ->test(ProjectsManager::class)
+        ->call('openCreate')
+        ->assertSet('isFreemium', true)
+        ->set('title', 'PaidConsole')
+        ->set('slug', 'paidconsole')
+        ->set('subdomain', 'paidconsole')
+        ->set('tagline', 'Consola de facturación para equipos')
+        ->set('summary', 'Plataforma de facturación con planes de pago por asiento.')
+        ->set('category', 'personal_tool')
+        ->set('role', 'Creador & Lead Developer')
+        ->set('monthlyRevenue', 120.00)
+        ->set('status', 'active')
+        ->set('isFreemium', false)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('portfolio_projects', [
+        'slug' => 'paidconsole',
+        'is_freemium' => false,
+    ]);
+});
+
+test('authenticated user can update the freemium model of an existing project', function () {
+    $user = User::factory()->create();
+    $project = EloquentProject::query()->where('slug', 'sendrix')->firstOrFail();
+
+    Livewire::actingAs($user)
+        ->test(ProjectsManager::class)
+        ->call('openEdit', $project->id)
+        ->assertSet('isFreemium', true)
+        ->set('isFreemium', false)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    expect((bool) EloquentProject::query()->where('slug', 'sendrix')->value('is_freemium'))
+        ->toBeFalse();
+});
+
+test('projects manager filters the project list by freemium model', function () {
+    $user = User::factory()->create();
+
+    EloquentProject::query()->create([
+        'slug' => 'paidconsole',
+        'subdomain' => 'paidconsole',
+        'title' => 'PaidConsole',
+        'tagline' => 'Consola de facturación para equipos',
+        'summary' => 'Plataforma de facturación con planes de pago por asiento.',
+        'category' => 'personal_tool',
+        'role' => 'Creador & Lead Developer',
+        'tech_stack' => ['Laravel 13'],
+        'highlights' => [],
+        'is_personal' => true,
+        'is_freemium' => false,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test(ProjectsManager::class)
+        ->assertSet('pricingFilter', 'all')
+        ->assertSee('Fillr')
+        ->assertSee('PaidConsole')
+        ->set('pricingFilter', 'paid')
+        ->assertSee('PaidConsole')
+        ->assertDontSee('Fillr')
+        ->set('pricingFilter', 'freemium')
+        ->assertSee('Fillr')
+        ->assertDontSee('PaidConsole');
+});
