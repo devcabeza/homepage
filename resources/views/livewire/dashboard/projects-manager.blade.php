@@ -165,9 +165,9 @@
 
             <div class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-1">
                 <span class="text-xs font-mono uppercase tracking-wider text-indigo-400 font-bold">Total Proyectos</span>
-                <div class="text-2xl sm:text-3xl font-bold font-mono text-white">{{ count($projects) }}</div>
+                <div class="text-2xl sm:text-3xl font-bold font-mono text-white">{{ count($allProjects) }}</div>
                 <div class="text-xs text-zinc-400">
-                    {{ count(array_filter($projects, fn($p) => $p->status === 'active')) }} activos &middot; {{ count(array_filter($projects, fn($p) => $p->revenueVerified && $p->monthlyRevenue > 0)) }} con Stripe
+                    {{ count(array_filter($allProjects, fn($p) => $p->status === 'active')) }} activos &middot; {{ count(array_filter($allProjects, fn($p) => $p->revenueVerified && $p->monthlyRevenue > 0)) }} con Stripe
                 </div>
             </div>
 
@@ -192,15 +192,30 @@
                     <p class="text-xs text-zinc-400 mt-0.5">Controla montos de revenue, visibilidad pública y URLs de subdominio.</p>
                 </div>
 
-                <button
-                    wire:click="openCreate"
-                    class="btn btn-xs sm:btn-sm btn-primary self-start sm:self-auto gap-1"
-                >
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    <span>+ Agregar Proyecto</span>
-                </button>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 self-start sm:self-auto">
+                    <div class="w-full sm:w-52 shrink-0">
+                        <x-select
+                            name="pricingFilter"
+                            size="xs"
+                            aria-label="Filtrar por modelo de cobro"
+                            wire:model.live="pricingFilter"
+                        >
+                            <option value="all">Todos los modelos ({{ count($allProjects) }})</option>
+                            <option value="freemium">Freemium ({{ $freemiumCount }})</option>
+                            <option value="paid">De paga ({{ $paidCount }})</option>
+                        </x-select>
+                    </div>
+
+                    <button
+                        wire:click="openCreate"
+                        class="btn btn-xs sm:btn-sm btn-primary gap-1"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span>+ Agregar Proyecto</span>
+                    </button>
+                </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -208,6 +223,7 @@
                     <thead class="text-xs font-mono text-zinc-400 uppercase bg-zinc-950/60 border-b border-zinc-800">
                         <tr>
                             <th class="py-3.5 px-4">Proyecto</th>
+                            <th class="py-3.5 px-4">Modelo</th>
                             <th class="py-3.5 px-4">Subdominio / Enlace</th>
                             <th class="py-3.5 px-4">MRR ($/mes)</th>
                             <th class="py-3.5 px-4">Estado</th>
@@ -221,6 +237,11 @@
                                 <td class="py-4 px-4">
                                     <div class="font-bold text-white text-sm sm:text-base">{{ $p->title }}</div>
                                     <div class="text-xs text-zinc-400 max-w-xs truncate">{{ $p->tagline }}</div>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <x-badge :variant="$p->isFreemium ? 'info' : 'success'" size="xs">
+                                        {{ $p->pricingLabel() }}
+                                    </x-badge>
                                 </td>
                                 <td class="py-4 px-4 font-mono text-xs">
                                     <a
@@ -284,7 +305,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-8 text-center text-zinc-500">
+                                <td colspan="7" class="py-8 text-center text-zinc-500">
                                     No hay proyectos registrados aún. Haz clic en "+ Nuevo Proyecto" para comenzar.
                                 </td>
                             </tr>
@@ -438,7 +459,7 @@
                         ></textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-mono text-zinc-400 mb-1">Repositorio GitHub (Opcional)</label>
                             <input
@@ -458,17 +479,22 @@
                                 min="0"
                             />
                         </div>
+                    </div>
 
-                        <div class="flex items-center pt-6">
-                            <label class="inline-flex items-center gap-2 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    wire:model="revenueVerified"
-                                    class="checkbox checkbox-primary checkbox-sm"
-                                />
-                                <span class="text-xs text-zinc-300 font-medium">Ingresos Verificados (Stripe)</span>
-                            </label>
-                        </div>
+                    <div class="flex flex-wrap items-center gap-x-6 gap-y-1">
+                        <x-checkbox
+                            name="isFreemium"
+                            size="sm"
+                            label="Freemium (marcado) / De paga (desmarcado)"
+                            wire:model="isFreemium"
+                        />
+
+                        <x-checkbox
+                            name="revenueVerified"
+                            size="sm"
+                            label="Ingresos Verificados (Stripe)"
+                            wire:model="revenueVerified"
+                        />
                     </div>
 
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-zinc-800">

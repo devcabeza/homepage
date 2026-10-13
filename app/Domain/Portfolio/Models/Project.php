@@ -34,7 +34,13 @@ final class Project
         public readonly string $status = 'active',
         public readonly ?string $logoUrl = null,
         public readonly bool $revenueVerified = true,
+        public readonly bool $isFreemium = true,
     ) {}
+
+    public function pricingLabel(): string
+    {
+        return $this->isFreemium ? 'Freemium' : 'De paga';
+    }
 
     public function isPersonalTool(): bool
     {

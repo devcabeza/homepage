@@ -16,11 +16,12 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
     /**
      * @return list<Project>
      */
-    public function all(): array
+    public function all(?bool $isFreemium = null): array
     {
         return array_values(
             EloquentProject::query()
                 ->where('is_personal', true)
+                ->when($isFreemium !== null, fn (Builder $q) => $q->where('is_freemium', $isFreemium))
                 ->orderBy('sort_order')
                 ->orderBy('id')
                 ->get()
@@ -32,12 +33,13 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
     /**
      * @return list<Project>
      */
-    public function findByCategory(ProjectCategory $category): array
+    public function findByCategory(ProjectCategory $category, ?bool $isFreemium = null): array
     {
         return array_values(
             EloquentProject::query()
                 ->where('is_personal', true)
                 ->where('category', $category->value)
+                ->when($isFreemium !== null, fn (Builder $q) => $q->where('is_freemium', $isFreemium))
                 ->orderBy('sort_order')
                 ->orderBy('id')
                 ->get()
@@ -57,7 +59,7 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
     /**
      * @return list<Project>
      */
-    public function search(string $query, ?ProjectCategory $category = null): array
+    public function search(string $query, ?ProjectCategory $category = null, ?bool $isFreemium = null): array
     {
         $term = trim($query);
 
@@ -65,6 +67,7 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
             EloquentProject::query()
                 ->where('is_personal', true)
                 ->when($category !== null, fn (Builder $q) => $q->where('category', $category->value))
+                ->when($isFreemium !== null, fn (Builder $q) => $q->where('is_freemium', $isFreemium))
                 ->when($term !== '', function (Builder $q) use ($term) {
                     $like = '%'.strtolower($term).'%';
                     $connection = $q->getConnection();
@@ -126,6 +129,7 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
             'status' => $project->status,
             'logo_url' => $project->logoUrl,
             'revenue_verified' => $project->revenueVerified,
+            'is_freemium' => $project->isFreemium,
             'url' => $project->url,
             'github_url' => $project->githubUrl,
             'subdomain' => $project->subdomain ?? $project->slug,
@@ -172,6 +176,7 @@ final class EloquentProjectRepository implements ProjectRepositoryInterface
             status: (string) ($model->status ?? 'active'),
             logoUrl: $model->logo_url ? (string) $model->logo_url : null,
             revenueVerified: (bool) ($model->revenue_verified ?? true),
+            isFreemium: (bool) ($model->is_freemium ?? true),
         );
     }
 }

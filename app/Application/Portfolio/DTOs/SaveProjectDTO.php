@@ -31,6 +31,7 @@ final readonly class SaveProjectDTO
         public ?string $githubUrl = null,
         public ?string $logoUrl = null,
         public bool $revenueVerified = true,
+        public bool $isFreemium = true,
         public bool $isPersonal = true,
         public bool $featured = true,
         public int $sortOrder = 0,

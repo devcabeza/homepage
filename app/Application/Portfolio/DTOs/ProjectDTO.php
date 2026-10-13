@@ -38,6 +38,8 @@ final readonly class ProjectDTO
         public string $status = 'active',
         public ?string $logoUrl = null,
         public bool $revenueVerified = true,
+        public bool $isFreemium = true,
+        public string $pricingLabel = 'Freemium',
     ) {}
 
     public static function fromDomain(Project $project, ?string $rootDomain = null): self
@@ -69,6 +71,8 @@ final readonly class ProjectDTO
             status: $project->status,
             logoUrl: $project->logoUrl,
             revenueVerified: $project->revenueVerified,
+            isFreemium: $project->isFreemium,
+            pricingLabel: $project->pricingLabel(),
         );
     }
 }

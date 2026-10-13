@@ -10,18 +10,18 @@ use App\Domain\Portfolio\Models\Project;
 interface ProjectRepositoryInterface
 {
     /**
-     * Get all portfolio projects ordered by sort order.
+     * Get all portfolio projects ordered by sort order, optionally filtered by pricing model.
      *
      * @return list<Project>
      */
-    public function all(): array;
+    public function all(?bool $isFreemium = null): array;
 
     /**
-     * Get projects filtered by category.
+     * Get projects filtered by category and optional pricing model.
      *
      * @return list<Project>
      */
-    public function findByCategory(ProjectCategory $category): array;
+    public function findByCategory(ProjectCategory $category, ?bool $isFreemium = null): array;
 
     /**
      * Find a project by unique slug.
@@ -29,11 +29,11 @@ interface ProjectRepositoryInterface
     public function findBySlug(string $slug): ?Project;
 
     /**
-     * Search projects by keyword/technology and optional category.
+     * Search projects by keyword/technology, optional category and pricing model.
      *
      * @return list<Project>
      */
-    public function search(string $query, ?ProjectCategory $category = null): array;
+    public function search(string $query, ?ProjectCategory $category = null, ?bool $isFreemium = null): array;
 
     /**
      * Find a project by ID.

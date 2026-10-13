@@ -27,6 +27,7 @@ class EloquentProject extends Model
         'status',
         'logo_url',
         'revenue_verified',
+        'is_freemium',
         'url',
         'github_url',
     ];
@@ -44,6 +45,7 @@ class EloquentProject extends Model
             'sort_order' => 'integer',
             'monthly_revenue' => 'float',
             'revenue_verified' => 'boolean',
+            'is_freemium' => 'boolean',
         ];
     }
 }

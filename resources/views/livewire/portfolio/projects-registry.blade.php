@@ -79,6 +79,47 @@
         @endif
     </div>
 
+    {{-- Pricing Model Filter Pills --}}
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+        <span class="text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 shrink-0 pr-1">
+            Modelo
+        </span>
+
+        <x-button
+            type="button"
+            size="xs"
+            :variant="$pricing === 'all' ? 'neutral' : 'ghost'"
+            class="shrink-0 font-mono text-[11px]"
+            wire:click="setPricing('all')"
+        >
+            Todos ({{ $counts['all'] }})
+        </x-button>
+
+        @if ($counts['freemium'] > 0)
+            <x-button
+                type="button"
+                size="xs"
+                :variant="$pricing === 'freemium' ? 'neutral' : 'ghost'"
+                class="shrink-0 font-mono text-[11px]"
+                wire:click="setPricing('freemium')"
+            >
+                Freemium ({{ $counts['freemium'] }})
+            </x-button>
+        @endif
+
+        @if ($counts['paid'] > 0)
+            <x-button
+                type="button"
+                size="xs"
+                :variant="$pricing === 'paid' ? 'neutral' : 'ghost'"
+                class="shrink-0 font-mono text-[11px]"
+                wire:click="setPricing('paid')"
+            >
+                De paga ({{ $counts['paid'] }})
+            </x-button>
+        @endif
+    </div>
+
     {{-- Projects Grid --}}
     @if (empty($projects))
         <div class="py-12 text-center rounded-xl bg-white dark:bg-[#13141b] border border-zinc-200 dark:border-zinc-800/80 p-6 space-y-2">
@@ -101,9 +142,14 @@
                 >
                     <div class="space-y-3">
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-mono text-zinc-500 dark:text-zinc-400 text-[11px]">
-                                {{ $project->categoryLabel }}
-                            </span>
+                            <div class="flex items-center gap-1.5 min-w-0">
+                                <span class="font-mono text-zinc-500 dark:text-zinc-400 text-[11px] truncate">
+                                    {{ $project->categoryLabel }}
+                                </span>
+                                <x-badge :variant="$project->isFreemium ? 'info' : 'success'" size="xs">
+                                    {{ $project->pricingLabel }}
+                                </x-badge>
+                            </div>
                             @if ($project->metricBadge)
                                 <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 font-medium">
                                     {{ $project->metricBadge }}
@@ -217,6 +263,9 @@
                 <div class="flex items-start justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
                     <div>
                         <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400">{{ $activeProject->categoryLabel }}</span>
+                        <x-badge :variant="$activeProject->isFreemium ? 'info' : 'success'" size="xs">
+                            {{ $activeProject->pricingLabel }}
+                        </x-badge>
                         <h3 class="text-xl font-bold text-zinc-900 dark:text-white mt-1">{{ $activeProject->title }}</h3>
                         <p class="text-xs text-zinc-500 dark:text-zinc-400 font-mono mt-0.5">{{ $activeProject->role }} @if ($activeProject->period) &middot; {{ $activeProject->period }} @endif</p>
                     </div>
